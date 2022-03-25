@@ -108,7 +108,7 @@ class webAddresses(Resource):
         return jsonify(result_data)
 
 
-api.add_resource(webAddresses, baseUrl + 'address', endpoint='wAddress')
+api.add_resource(webAddresses, f'{baseUrl}address', endpoint='wAddress')
 
 
 if __name__ == '__main__':

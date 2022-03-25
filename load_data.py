@@ -31,9 +31,7 @@ def get_query(query):
 
     column_counts = len(colnames)
     for i in rows:
-        data = {}
-        for g in range(column_counts):
-            data[colnames[g]] = i[g]
+        data = {colnames[g]: i[g] for g in range(column_counts)}
         resultlist.append(data)
     return resultlist
 
@@ -81,10 +79,7 @@ def load_csv():
     with open('test_addresses.csv') as csvfile:
         csv_reader = csv.reader(csvfile)
         csv_rows = list(csv_reader)
-    filterted_rows = []
-    for i in csv_rows:
-        if i[7] == 'true':
-            filterted_rows.append(i)
+    filterted_rows = [i for i in csv_rows if i[7] == 'true']
     create_db_connection()
     for i in filterted_rows:
         rowid = i[0]
@@ -115,14 +110,18 @@ def check_db():
     query = "SELECT count(*) FROM pg_database where datname='test';"
     data = get_query(query=query)
     if data[0]["count"] == 0:
-        query = "CREATE DATABASE test WITH OWNER = postgres ENCODING = 'UTF8'"
-        query += " LC_COLLATE = 'en_US.utf8' LC_CTYPE = 'en_US.utf8' "
-        query += " TABLESPACE = pg_default CONNECTION LIMIT = -1;"
-        query += " CREATE EXTENSION postgis; "
+        query = (
+            "CREATE DATABASE test WITH OWNER = postgres ENCODING = 'UTF8'"
+            + " LC_COLLATE = 'en_US.utf8' LC_CTYPE = 'en_US.utf8' "
+            + " TABLESPACE = pg_default CONNECTION LIMIT = -1;"
+            + " CREATE EXTENSION postgis; "
+        )
         set_query2(query)
-    query = "SELECT count(*) FROM pg_catalog.pg_tables WHERE "
-    query += "schemaname != 'pg_catalog' AND schemaname "
-    query += " != 'information_schema' and tablename='ukdata';"
+    query = (
+        "SELECT count(*) FROM pg_catalog.pg_tables WHERE "
+        + "schemaname != 'pg_catalog' AND schemaname "
+        + " != 'information_schema' and tablename='ukdata';"
+    )
     data = get_query(query=query)
     if data[0]["count"] == 0:
         query = """CREATE TABLE IF NOT EXISTS public.ukdata
@@ -179,7 +178,7 @@ def get_data(sw, en, zoom):
         it returns list of dictionaries with keys below:
         [{'latitude':'','longitude':'','count':''}]
         """
-    envelope = str(sw) + "," + str(en)
+    envelope = f'{str(sw)},{str(en)}'
     query = """SELECT row_number() over () AS id,
     ST_NumGeometries(gc) as countpoint,
     ST_AsText (ST_Transform (ST_Centroid(gc), 4326)) as loca
