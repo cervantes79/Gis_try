@@ -25,9 +25,9 @@ def load():
 def addresses():
     """ It gets 3 parameters
         sw: south west point of bounding box,
-        Example sw=-11.962067381231293,51.81965717678804
+            Example sw=-11.962067381231293,51.81965717678804
         ne: north east point of bounding box,
-        Example ne=5.31906738123115,56.60417303370079
+            Example ne=5.31906738123115,56.60417303370079
         zoom: zoom level, Example zoom=5.51
 
         it returns list of dictionaries with keys below:
@@ -58,9 +58,9 @@ class webAddresses(Resource):
     def get(self):
         """ It gets 3 parameters
         sw: south west point of bounding box,
-        Example sw=-11.962067381231293,51.81965717678804
+            Example sw=-11.962067381231293,51.81965717678804
         ne: north east point of bounding box,
-        Example ne=5.31906738123115,56.60417303370079
+            Example ne=5.31906738123115,56.60417303370079
         zoom: zoom level, Example zoom=5.51
 
         it returns list of dictionaries with keys below:
@@ -84,9 +84,9 @@ class webAddresses(Resource):
     def post(self):
         """ It gets 3 parameters
         sw: south west point of bounding box,
-        Example sw=-11.962067381231293,51.81965717678804
+            Example sw=-11.962067381231293,51.81965717678804
         ne: north east point of bounding box,
-        Example ne=5.31906738123115,56.60417303370079
+            Example ne=5.31906738123115,56.60417303370079
         zoom: zoom level, Example zoom=5.51
 
         it returns list of dictionaries with keys below:
