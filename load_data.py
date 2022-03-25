@@ -87,14 +87,17 @@ def load_csv():
         address1 = str(i[2])
         address2 = str(i[3])
         postcode = str(i[4])
-        geom = "ST_SetSRID(ST_MakePoint({},{}),4326)".format(i[5], i[6])
+        geom = f"ST_SetSRID(ST_MakePoint({i[5]},{i[6]}),4326)"
         number_value = str(i[8])
         address3 = str(i[9])
         address4 = str(i[10])
-        query = "insert into public.ukdata (rowid, country_code, address1, "
-        query += " address2, postcode, geom,  number_value, address3,"
+        query = (
+            "insert into public.ukdata (rowid, country_code, address1, "
+            + " address2, postcode, geom,  number_value, address3,"
+        )
+
         query += " address4)"
-        " values (%s,%s,%s,%s,%s, {},%s,%s,%s)".format(geom)
+        f" values (%s,%s,%s,%s,%s, {geom},%s,%s,%s)"
         data_list = [
                         rowid, country_code, address1,
                         address2, postcode, number_value,
@@ -190,12 +193,9 @@ def get_data(sw, en, zoom):
     data = get_query(query=query)
     result_list = []
     for i in data:
-        stagingdict = {}
         lat, lon = point2longlat(i["loca"])
-        stagingdict["latitude"] = lat
-        stagingdict["longitude"] = lon
-        stagingdict["count"] = i["countpoint"]
-
+        stagingdict = {"latitude": lat, "longitude": lon,
+                       "count": i["countpoint"]}
         result_list.append(stagingdict)
 
     return result_list
